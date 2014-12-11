@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;sourceToRoutesMap&apos; in &apos;routes.RouteNetworkImpl&apos; to &apos;sourceMap&apos;&#x0A;- Original project: &apos;Routes&apos;&#x0A;- Original element: &apos;routes.RouteNetworkImpl.sourceToRoutesMap&apos;&#x0A;- Renamed element: &apos;routes.RouteNetworkImpl.sourceMap&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;sourceToRoutesMap&apos;" flags="589830" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;routes{RouteNetworkImpl.java[RouteNetworkImpl^sourceToRoutesMap" name="sourceMap" references="true" setter="false" stamp="1415843537930" textual="false" version="1.0"/>
+</session>

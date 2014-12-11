@@ -57,56 +57,57 @@ public class RomanArabicConverter {
 	public RomanArabicConverter(String value) throws MalformedNumberException {
 		// trim all the whitespace
 		value = removeWhitespace(value);
-		System.out.println(value);
 
 		this.value = value;
 		
 		// check to see if the result is valid and what type it is.
-		switch(value.checkValid()){
+		switch(checkValid(value)){
 			case 1:
 				this.isArabic = true;
 				break;
 			case 2:
 				this.isArabic = false;
-		}
+		}		
 	}
 
 	/**
 	 * @return the integer value of the number given
 	 */
 	public int toArabic() {
-		// TODO: Convert numbers to Arabic
 		int sum = 0;
 		int i = 0;		
-		
-		//iterate through the roman numerals
-		while(i < this.value.length()){
-			char ch = this.value.getChar(i);
-			int num = romanLookupValues(ch);
-			
-			i++;
-			
-			if (i == value.length()) {
-                  //last number in sequence, never have to worry about subtracting
-                  sum += num;
-               }
-               else {
-                  //if the next number is greater, need to subtract the first num from the second
-                  int num2 = romanLookupValues(this.value.charAt(i));
-                  
-                  if (num2 > num) {
-                     sum += (num2 - num);
-                     i++;
-                  }
-                  else {
-                     //simple addition if the above case is not true in this instance
-                     sum += num;
-                  }
-               }
-			
+
+		if(!isArabic){
+			//iterate through the roman numerals
+			while(i < this.value.length()){
+				char ch = this.value.toCharArray()[i];
+				int num = romanLookupValues(ch);
+
+				i++;
+
+				if (i == value.length()) {
+					//last number in sequence, never have to worry about subtracting
+					sum += num;
+				}
+				else {
+					//if the next number is greater, need to subtract the first num from the second
+					int num2 = romanLookupValues(this.value.charAt(i));
+
+					if (num2 > num) {
+						sum += (num2 - num);
+						i++;
+					}
+					else {
+						//simple addition if the above case is not true in this instance
+						sum += num;
+					}
+				}
+			}
 		}
-		
-		return 1;
+		else{
+			sum = Integer.parseInt(value);
+		}
+		return sum;
 	}
 
 	/**
@@ -119,8 +120,15 @@ public class RomanArabicConverter {
 	 *             > Reading Roman Numerals</a>
 	 */
 	public String toRoman() throws ValueOutOfBoundsException {
-		// TODO: Convert numbers to Roman numerals
-		return "I";
+		String output = new String();
+		if(isArabic){
+			//do number things 
+			
+		}
+		else{
+			output = value;
+		}
+		return output;
 	}
 
 	private String removeWhitespace(String input) {
@@ -146,12 +154,11 @@ public class RomanArabicConverter {
 			return 1;
 		}
 		// check to see if the string is a Roman numeral
-		else if (this.value.matches("[IVXLDM]+")) {
+		else if (this.value.matches("[IVXLCDM]+")) {
 			return 2;
 		} else {
 			throw new MalformedNumberException("Contains illegal characters");
 		}
-
 	}
 
 	//do we need this with my addition?
@@ -163,7 +170,6 @@ public class RomanArabicConverter {
 			for (int j = 0; j < checkRoman.length(); j++) {
 				check = input.substring(i, i + 1);
 				ref = checkRoman.substring(j, j + 1);
-				
 			}
 		}
 		return true;
@@ -200,52 +206,6 @@ public class RomanArabicConverter {
             case 'M':  
 				return 1000;
 		}
-	}
-
-	private int parseNum(String input) throws ValueOutOfBoundsException, MalformedNumberException {
-		int output = 0;
-
-		for (int i = 0; i < input.length(); i++) {
-
-			switch (input.substring(i, i + 1)) {
-			case "1":
-				output += 1;
-				break;
-			case "2":
-				output += 2;
-				break;
-			case "3":
-				output += 3;
-				break;
-			case "4":
-				output += 4;
-				break;
-			case "5":
-				output += 5;
-				break;
-			case "6":
-				output += 6;
-				break;
-			case "7":
-				output += 7;
-				break;
-			case "8":
-				output += 8;
-				break;
-			case "9":
-				output += 9;
-				break;
-			case "0": // do nothing because 0
-				break;
-			default:
-				throw new MalformedNumberException("only numbers or only numerals are allowed.");
-			}
-		}
-
-		if (output > 3999) {
-			throw new ValueOutOfBoundsException("you may only enter numbers between 1 and 3999");
-		}
-		
-		return output;
+		return 0;
 	}
 }

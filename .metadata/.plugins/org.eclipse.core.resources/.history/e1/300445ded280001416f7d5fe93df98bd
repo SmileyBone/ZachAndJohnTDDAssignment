@@ -1,0 +1,111 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Gary F. Pollice
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    gpollice
+ *    rpdabrowski
+ *******************************************************************************/
+
+package tdd;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+/**
+ * Sample test cases for the RomanArabicConverter class.
+ *
+ * @author rpdabrowski
+ * @version Nov 30, 2014
+ */
+public class SampleRomanArabicConverterTest {
+
+	
+	//valid output tests
+	
+	//make sure that the input for I and 1 works.
+	@Test
+	public void input_1_() throws Exception
+	{
+		assertEquals(1,   new RomanArabicConverter(" 1 ").toArabic());
+		assertEquals("I", new RomanArabicConverter(" 1 ").toRoman());
+	}
+	@Test
+	public void input_5_() throws Exception
+	{
+		assertEquals(5,   new RomanArabicConverter(" 5 ").toArabic());
+		assertEquals("V", new RomanArabicConverter(" 5 ").toRoman());
+	}
+	@Test
+	public void input_10_() throws Exception
+	{
+		assertEquals(10,   new RomanArabicConverter(" 10 ").toArabic());
+		assertEquals("X", new RomanArabicConverter(" 10 ").toRoman());
+	}
+	@Test
+	public void input_50_() throws Exception
+	{
+		assertEquals(50,   new RomanArabicConverter(" 50 ").toArabic());
+		assertEquals("L", new RomanArabicConverter(" 50 ").toRoman());
+	}
+	@Test
+	public void input_100_() throws Exception
+	{
+		assertEquals(100,   new RomanArabicConverter(" 100 ").toArabic());
+		assertEquals("C", new RomanArabicConverter(" 100 ").toRoman());
+	}
+	@Test
+	public void input_500_() throws Exception
+	{
+		assertEquals(500,   new RomanArabicConverter(" 500 ").toArabic());
+		assertEquals("D", new RomanArabicConverter(" 500 ").toRoman());
+	}
+	@Test
+	public void input_1000_() throws Exception
+	{
+		assertEquals(1000,   new RomanArabicConverter(" 1000 ").toArabic());
+		assertEquals("M", new RomanArabicConverter(" 1000 ").toRoman());
+	}
+	
+	//input filtering tests
+	@Test
+	public void input_1_() throws Exception
+	{
+		assertEquals(1,   new RomanArabicConverter(" 1 ").toArabic());
+		assertEquals("I", new RomanArabicConverter(" 1 ").toRoman());
+	}
+	
+	
+	//tests that through malformed number exceptions
+	@Test (expected=MalformedNumberException.class)
+	public void inputEmptyString() throws Exception
+	{
+		new RomanArabicConverter("");
+	}
+	
+	@Test (expected=MalformedNumberException.class)
+	public void inputIIII() throws Exception
+	{
+		new RomanArabicConverter("IIII");
+	}
+	
+	
+	//Tests that will through the value out of bounds
+	@Test (expected=ValueOutOfBoundsException.class)
+	public void negativeInput() throws Exception
+	{
+		new RomanArabicConverter("-5");
+	}
+	
+	@Test (expected=ValueOutOfBoundsException.class)
+	public void over3999() throws Exception
+	{
+		new RomanArabicConverter("4000");
+	}
+	
+}

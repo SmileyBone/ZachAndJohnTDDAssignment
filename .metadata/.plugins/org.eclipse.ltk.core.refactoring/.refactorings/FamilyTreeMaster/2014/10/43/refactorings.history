@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;ancenstors&apos; in &apos;familytree.Population.isAncestorOf(...)&apos; to &apos;ancestors&apos;&#x0A;- Original project: &apos;FamilyTreeMaster&apos;&#x0A;- Original element: &apos;familytree.Population.isAncestorOf(Person, Person).ancenstors&apos;&#x0A;- Renamed element: &apos;ancenstors&apos;&#x0A;- Update references to refactored element" description="Rename local variable &apos;ancenstors&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;familytree{Population.java[Population~isAncestorOf~QPerson;~QPerson;@ancenstors!2740!2786!2752!2761!QSet\&lt;QPerson;&gt;;!0!false" name="ancestors" references="true" stamp="1414178262663" version="1.0"/>
+</session>
