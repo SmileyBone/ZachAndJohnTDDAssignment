@@ -55,10 +55,12 @@ public class RomanArabicConverter {
 	Boolean isArabic;
 
 	public RomanArabicConverter(String value) throws MalformedNumberException {
+		if(value == null){
+			throw new MalformedNumberException("input must not be null");
+		}
+		
 		// trim all the whitespace
 		value = removeWhitespace(value);
-
-		this.value = value;
 		
 		// check to see if the result is valid and what type it is.
 		switch(checkValid(value)){
@@ -67,7 +69,8 @@ public class RomanArabicConverter {
 				break;
 			case 2:
 				this.isArabic = false;
-		}		
+		}	
+		this.value = value;
 	}
 
 	/**
@@ -121,8 +124,16 @@ public class RomanArabicConverter {
 	 */
 	public String toRoman() throws ValueOutOfBoundsException {
 		String output = new String();
+		int num = 0;
+		
 		if(isArabic){
-			//do number things 
+			num = Integer.parseInt(value);
+			if(num < 1){
+				throw new ValueOutOfBoundsException("Input must be non-negitive.");
+			}
+			else if(num > 3999){
+				throw new ValueOutOfBoundsException("Input must be less than 3999");
+			}
 			
 		}
 		else{
@@ -131,7 +142,8 @@ public class RomanArabicConverter {
 		return output;
 	}
 
-	private String removeWhitespace(String input) {
+	private String removeWhitespace(String input) throws MalformedNumberException {
+		
 		String output = new String();
 
 		// walk the string to look for whitespace and remove
@@ -145,51 +157,20 @@ public class RomanArabicConverter {
 
 	private int checkValid(String input) throws MalformedNumberException {
 
-		// check the null condition
-		if (input == null)
-			throw new MalformedNumberException("Cannot parse null input.");
-
 		// check to see if the string is a number
-		if(this.value.matches("[0-9]+")){
+		if(input.matches("[-0-9]+")){
 			return 1;
 		}
+		
 		// check to see if the string is a Roman numeral
-		else if (this.value.matches("[IVXLCDM]+")) {
-			if(value.matches(".{4}")){
+		else if (input.matches("[IVXLCDM]+")) {
+			if(input.matches(".{4}")){
 				throw new MalformedNumberException("Contains illegal repetition");
 			}
 			return 2;
 		} else {
 			throw new MalformedNumberException("Contains illegal characters");
 		}
-	}
-
-	//do we need this with my addition?
-	private boolean checkRoman(String input) {
-		String checkRoman = "IVXLCDM";
-		String check, ref;
-
-		for (int i = 0; i < input.length(); i++) {
-			for (int j = 0; j < checkRoman.length(); j++) {
-				check = input.substring(i, i + 1);
-				ref = checkRoman.substring(j, j + 1);
-			}
-		}
-		return true;
-	}
-
-	//do we need this with my addition?
-	private boolean checkNum(String input) throws ValueOutOfBoundsException {
-		String checkNum = "0123456789";
-		String check, ref;
-
-		for (int i = 0; i < input.length(); i++) {
-			for (int j = 0; j < checkNum.length(); j++) {
-				check = input.substring(i, i + 1); 
-				ref = checkNum.substring(j, j + 1);
-			}
-		}
-		return false;
 	}
 
 	private int romanLookupValues(char input){

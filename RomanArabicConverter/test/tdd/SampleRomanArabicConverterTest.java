@@ -24,7 +24,7 @@ import org.junit.Test;
  * @version Nov 30, 2014
  */
 public class SampleRomanArabicConverterTest {
-	
+
 	//lower case input
 	@Test (expected=MalformedNumberException.class)
 	public void inputLowercase() throws Exception
@@ -36,7 +36,7 @@ public class SampleRomanArabicConverterTest {
 	{
 		new RomanArabicConverter("iM");
 	}
-	
+
 	//not roman numbers
 	@Test (expected=MalformedNumberException.class)
 	public void inputNotRoman() throws Exception
@@ -48,18 +48,18 @@ public class SampleRomanArabicConverterTest {
 	{
 		new RomanArabicConverter("B");
 	}
-	
+
 	//Tests that will through the value out of bounds
 	@Test (expected=ValueOutOfBoundsException.class)
 	public void negativeInput() throws Exception
 	{
-		new RomanArabicConverter("-5");
+		new RomanArabicConverter("-5").toRoman();
 	}
-	
+
 	@Test (expected=ValueOutOfBoundsException.class)
 	public void over3999() throws Exception
 	{
-		new RomanArabicConverter("4000");
+		new RomanArabicConverter("4000").toRoman();
 	}
-	
+
 }
