@@ -150,11 +150,14 @@ public class RomanArabicConverter {
 			throw new MalformedNumberException("Cannot parse null input.");
 
 		// check to see if the string is a number
-		if(this.value.matches("[0123456789]+")){
+		if(this.value.matches("[0-9]+")){
 			return 1;
 		}
 		// check to see if the string is a Roman numeral
 		else if (this.value.matches("[IVXLCDM]+")) {
+			if(value.matches(".{4}")){
+				throw new MalformedNumberException("Contains illegal repetition");
+			}
 			return 2;
 		} else {
 			throw new MalformedNumberException("Contains illegal characters");
