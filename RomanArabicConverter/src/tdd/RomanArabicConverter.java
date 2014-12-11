@@ -52,14 +52,23 @@ public class RomanArabicConverter {
 	 */
 
 	String value;
+	Boolean isArabic;
 
 	public RomanArabicConverter(String value) throws MalformedNumberException {
 		// trim all the whitespace
 		value = removeWhitespace(value);
 		System.out.println(value);
-		// check to see if the result is valid.
 
 		this.value = value;
+		
+		// check to see if the result is valid and what type it is.
+		switch(value.checkValid()){
+			case 1:
+				this.isArabic = true;
+				break;
+			case 2:
+				this.isArabic = false;
+		}
 	}
 
 	/**
@@ -67,6 +76,36 @@ public class RomanArabicConverter {
 	 */
 	public int toArabic() {
 		// TODO: Convert numbers to Arabic
+		int sum = 0;
+		int i = 0;		
+		
+		//iterate through the roman numerals
+		while(i < this.value.length()){
+			char ch = this.value.getChar(i);
+			int num = romanLookupValues(ch);
+			
+			i++;
+			
+			if (i == value.length()) {
+                  //last number in sequence, never have to worry about subtracting
+                  sum += num;
+               }
+               else {
+                  //if the next number is greater, need to subtract the first num from the second
+                  int num2 = romanLookupValues(this.value.charAt(i));
+                  
+                  if (num2 > num) {
+                     sum += (num2 - num);
+                     i++;
+                  }
+                  else {
+                     //simple addition if the above case is not true in this instance
+                     sum += num;
+                  }
+               }
+			
+		}
+		
 		return 1;
 	}
 
@@ -96,18 +135,26 @@ public class RomanArabicConverter {
 		return output;
 	}
 
-	private void checkValid(String input) throws MalformedNumberException {
+	private int checkValid(String input) throws MalformedNumberException {
 
 		// check the null condition
 		if (input == null)
 			throw new MalformedNumberException("Cannot parse null input.");
 
 		// check to see if the string is a number
-
+		if(this.value.matches("[0123456789]+")){
+			return 1;
+		}
 		// check to see if the string is a Roman numeral
+		else if (this.value.matches("[IVXLDM]+")) {
+			return 2;
+		} else {
+			throw new MalformedNumberException("Contains illegal characters");
+		}
 
 	}
 
+	//do we need this with my addition?
 	private boolean checkRoman(String input) {
 		String checkRoman = "IVXLCDM";
 		String check, ref;
@@ -116,15 +163,43 @@ public class RomanArabicConverter {
 			for (int j = 0; j < checkRoman.length(); j++) {
 				check = input.substring(i, i + 1);
 				ref = checkRoman.substring(j, j + 1);
-
+				
 			}
 		}
 		return true;
 	}
 
+	//do we need this with my addition?
 	private boolean checkNum(String input) throws ValueOutOfBoundsException {
+		String checkNum = "0123456789";
+		String check, ref;
 
+		for (int i = 0; i < input.length(); i++) {
+			for (int j = 0; j < checkNum.length(); j++) {
+				check = input.substring(i, i + 1); 
+				ref = checkNum.substring(j, j + 1);
+			}
+		}
 		return false;
+	}
+
+	private int romanLookupValues(char input){
+		switch(input){
+			case 'I':  
+				return 1;
+            case 'V':  
+				return 5;
+            case 'X':  
+				return 10;
+            case 'L':  
+				return 50;
+            case 'C':  
+				return 100;
+            case 'D':  
+				return 500;
+            case 'M':  
+				return 1000;
+		}
 	}
 
 	private int parseNum(String input) throws ValueOutOfBoundsException, MalformedNumberException {
@@ -170,6 +245,7 @@ public class RomanArabicConverter {
 		if (output > 3999) {
 			throw new ValueOutOfBoundsException("you may only enter numbers between 1 and 3999");
 		}
+		
 		return output;
 	}
 }
