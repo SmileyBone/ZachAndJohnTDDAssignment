@@ -1,13 +1,23 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Gary F. Pollice
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ *******************************************************************************/
 package tdd;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * input filtering test cases for the RomanArabicConverter class.
+ *
+ */
 public class inputFilterTests {
 
-	//input filtering tests
+	
 	
 		//tests that through malformed number exceptions
 		@Test (expected=MalformedNumberException.class)
@@ -55,12 +65,26 @@ public class inputFilterTests {
 		public void inputMMMM() throws Exception
 		{
 			new RomanArabicConverter("MMMM");
-		}
-		
+		}	
 		@Test (expected=MalformedNumberException.class)
 		public void inputBadRoman8() throws Exception
 		{
 			new RomanArabicConverter("IIX");
+		}		
+		
+		@Test (expected=MalformedNumberException.class)
+		public void inputDoubleV() throws Exception
+		{
+			new RomanArabicConverter("VV");
 		}
-
+		@Test (expected=MalformedNumberException.class)
+		public void inputDoubleD() throws Exception
+		{
+			new RomanArabicConverter("DD");
+		}
+		@Test (expected=MalformedNumberException.class)
+		public void inputDoubleL() throws Exception
+		{
+			new RomanArabicConverter("LL");
+		}
 }

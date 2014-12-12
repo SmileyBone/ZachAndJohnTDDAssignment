@@ -58,19 +58,46 @@ public class RomanArabicConverter {
 		if(value == null){
 			throw new MalformedNumberException("input must not be null");
 		}
-		
+
 		// trim all the whitespace
 		value = removeWhitespace(value);
-		
+
 		// check to see if the result is valid and what type it is.
 		switch(checkValid(value)){
-			case 1:
-				this.isArabic = true;
-				break;
-			case 2:
-				this.isArabic = false;
+		case 1:
+			isArabic = true;
+			break;
+		case 2:
+			findTheDoubles(value);
+			isArabic = false;
 		}	
 		this.value = value;
+	}
+
+	private void findTheDoubles(String input) throws MalformedNumberException {
+		if(input.contains("LL") || input.contains("DD")||input.contains("VV")){
+			throw new MalformedNumberException("The string must not contain double fives.");
+		}
+
+		if (input.length() >= 3) {
+			//if there is two, the third can't be bigger
+			for (int i = 0; i < input.length() - 2; i++) {
+				char c1 = input.toCharArray()[i];
+				char c2 = input.toCharArray()[i + 1];
+				char c3 = input.toCharArray()[i + 2];
+
+				if (c1 == c2) {
+					if (c1 != c3) {
+						if (romanLookupValues(c3) > romanLookupValues(c1)) {
+							throw new MalformedNumberException(
+									"(x)(x)(x<) is not allowed.");
+						}
+					}
+				}
+
+			}
+		}
+
 	}
 
 	/**
@@ -82,8 +109,8 @@ public class RomanArabicConverter {
 
 		if(!isArabic){
 			//iterate through the roman numerals
-			while(i < this.value.length()){
-				char ch = this.value.toCharArray()[i];
+			while(i < value.length()){
+				char ch = value.toCharArray()[i];
 				int num = romanLookupValues(ch);
 
 				i++;
@@ -94,7 +121,7 @@ public class RomanArabicConverter {
 				}
 				else {
 					//if the next number is greater, need to subtract the first num from the second
-					int num2 = romanLookupValues(this.value.charAt(i));
+					int num2 = romanLookupValues(value.charAt(i));
 
 					if (num2 > num) {
 						sum += (num2 - num);
@@ -126,9 +153,10 @@ public class RomanArabicConverter {
 	public String toRoman() throws ValueOutOfBoundsException {
 		String output = new String();
 		int num = 0;
-		int div, i, rem;
+		int div, i;
+		final int rem;
 		String romSeq = new String();
-		
+
 		if(isArabic){
 			num = Integer.parseInt(value);
 			if(num < 1){
@@ -140,27 +168,27 @@ public class RomanArabicConverter {
 			if(num > 5){
 				div = num / 5;
 				rem = num % 5;
-				
-				int Mnum = div / 200;
+
+				final int Mnum = div / 200;
 				div -= 200*Mnum;
-				
+
 				int Cnum = div / 20;
 				div -= 20*Cnum;
-				
+
 				int Xnum = div / 2;
 				div -= 2*Xnum;
-				
+
 				//div is now the number of I's
 				//roman sequence construction
-				
+
 				for(i = 0; i < Mnum; i++){
 					romSeq += "M";
 				}
-				
+
 				//check for any weird stuff with C
 				if(Cnum > 5){
 					Cnum -= 5;
-					
+
 					if(Cnum == 4){ //meaning 
 						romSeq += "CM";
 					}else{
@@ -180,11 +208,11 @@ public class RomanArabicConverter {
 						}
 					}
 				}
-				
+
 				//now check for weird stuff with X	
 				if(Xnum > 5){
 					Xnum -= 5;
-					
+
 					if(Xnum == 4){ //meaning 
 						romSeq += "XC";
 					}else{
@@ -204,12 +232,9 @@ public class RomanArabicConverter {
 						}
 					}
 				}
-				
+
 				//now to check for weird stuff with I
-				if(rem > 5){
-					//romSeq += "D";
-					rem -= 5;
-					
+				if(div == 1){
 					if(rem == 4){ //meaning 
 						romSeq += "IX";
 					}else{
@@ -218,39 +243,23 @@ public class RomanArabicConverter {
 							romSeq += "I";
 						}
 					}
+				}else if(rem == 4){ //meaning 
+					romSeq += "IV";
 				}else{
-					if(rem == 5){
-						//do nothing
-					}else if(rem == 4){ //meaning 
-						romSeq += "IV";
-					}else{
-						for(i=0; i < rem; i++){
-							romSeq += "I";
-						}
+					for(i=0; i < rem; i++){
+						romSeq += "I";
 					}
 				}
 			}else{
 				//now to check for weird stuff with I
-				if(num > 5){
-					num -= 5;
-					
-					if(num == 4){ //meaning 
-						romSeq += "IX";
-					}else{
-						romSeq += "V";
-						for(i=0; i < num; i++){
-							romSeq += "I";
-						}
-					}
+
+				if(num == 5){
+					romSeq += "V";
+				}else if(num == 4){ //meaning 
+					romSeq += "IV";
 				}else{
-					if(num == 5){
-						romSeq += "V";
-					}else if(num == 4){ //meaning 
-						romSeq += "IV";
-					}else{
-						for(i=0; i < num; i++){
-							romSeq += "I";
-						}
+					for(i=0; i < num; i++){
+						romSeq += "I";
 					}
 				}
 			}
@@ -258,7 +267,7 @@ public class RomanArabicConverter {
 			System.out.println(value);
 			System.out.println(romSeq);
 			output = romSeq;
-			
+
 		}else{
 			output = value;
 		}
@@ -266,14 +275,15 @@ public class RomanArabicConverter {
 	}
 
 	private String removeWhitespace(String input) {
-		
+
 		String output = new String();
 
 		// walk the string to look for whitespace and remove
 		for (int i = 0; i < input.length(); i++) {
 			String c = input.substring(i, i + 1);
-			if (!c.equals(" ") && !c.equals("\t"))
+			if (!c.equals(" ") && !c.equals("\t")){
 				output += c;
+			}
 		}
 		return output;
 	}
@@ -284,13 +294,12 @@ public class RomanArabicConverter {
 		if(input.matches("[-0-9]+")){
 			return 1;
 		}
-		
-		// check to see if the string is a Roman numeral
-		else if (input.matches("[IVXLCDM]+")) {
-			if(input.matches("(\\w)\\1\\1\\1+")){
+
+		// check to see if the string is a Roman numeral, all the problems are with the Romans. :-(
+		else if (input.matches("[IVXLCDM]+")) { //regex for checking to make sure that only Roman numbers are entered.
+			if(input.matches("(\\w)\\1\\1\\1+")){ //regex for checking for repeated numerals
 				throw new MalformedNumberException("Contains illegal repetition");
-			}
-			
+			}			
 			return 2;
 		} else {
 			throw new MalformedNumberException("Contains illegal characters");
@@ -299,21 +308,20 @@ public class RomanArabicConverter {
 
 	private int romanLookupValues(char input){
 		switch(input){
-			case 'I':  
-				return 1;
-            case 'V':  
-				return 5;
-            case 'X':  
-				return 10;
-            case 'L':  
-				return 50;
-            case 'C':  
-				return 100;
-            case 'D':  
-				return 500;
-            case 'M':  
-				return 1000;
+		case 'I':  
+			return 1;
+		case 'V':  
+			return 5;
+		case 'X':  
+			return 10;
+		case 'L':  
+			return 50;
+		case 'C':  
+			return 100;
+		case 'D':  
+			return 500;
+		default:  
+			return 1000;
 		}
-		return 0;
 	}
 }

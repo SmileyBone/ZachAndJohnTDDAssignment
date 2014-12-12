@@ -1,17 +1,23 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Gary F. Pollice
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ *******************************************************************************/
+
 package tdd;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * 	Valid output test cases for the RomanArabicConverter class.
+ */
 public class ValidOutputTests {
-
-
-	//valid output tests
 
 	//make sure that the input for I and 1 works.
 	@Test
@@ -86,7 +92,7 @@ public class ValidOutputTests {
 		assertEquals("IX", new RomanArabicConverter(" IX ").toRoman());
 	}
 	
-	@Test //this was made because brute was failing on the number 6.
+	@Test //this was made because brute was failing on the number 6. it was used to help with debugging.
 	public void input_Test6Input() throws Exception
 	{
 		assertEquals(6,   new RomanArabicConverter("6").toArabic());
@@ -106,6 +112,13 @@ public class ValidOutputTests {
 			assertEquals(i, outputNum);
 			assertEquals(i, new RomanArabicConverter(outputString).toArabic());
 		}
+	}
+	
+	@Test //this was made because brute was failing on the number 6.
+	public void input_testArabicOutput() throws Exception
+	{
+		assertEquals(-1234,   new RomanArabicConverter("-1234").toArabic());
+		assertEquals(9001, new RomanArabicConverter(" 9001 ").toArabic());
 	}
 	
 }
