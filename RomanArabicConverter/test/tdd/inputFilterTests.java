@@ -56,5 +56,11 @@ public class inputFilterTests {
 		{
 			new RomanArabicConverter("MMMM");
 		}
+		
+		@Test (expected=MalformedNumberException.class)
+		public void inputBadRoman8() throws Exception
+		{
+			new RomanArabicConverter("IIX");
+		}
 
 }

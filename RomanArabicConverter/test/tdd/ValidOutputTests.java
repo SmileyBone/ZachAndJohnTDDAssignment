@@ -71,5 +71,18 @@ public class ValidOutputTests {
 		assertEquals("XXIX", new RomanArabicConverter(" XXIX ").toRoman());
 		assertEquals("XXIX", new RomanArabicConverter(" X X I  	X 	 ").toRoman());
 	}
-
+	
+	@Test
+	public void input_Test8Input() throws Exception
+	{
+		assertEquals(8,   new RomanArabicConverter(" VIII").toArabic());
+		assertEquals("VIII", new RomanArabicConverter(" VIII ").toRoman());
+	}
+	
+	@Test
+	public void input_Test9Input() throws Exception
+	{
+		assertEquals(9,   new RomanArabicConverter(" IX").toArabic());
+		assertEquals("IX", new RomanArabicConverter(" IX ").toRoman());
+	}
 }

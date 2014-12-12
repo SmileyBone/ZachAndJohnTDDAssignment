@@ -149,7 +149,7 @@ public class RomanArabicConverter {
 		// walk the string to look for whitespace and remove
 		for (int i = 0; i < input.length(); i++) {
 			String c = input.substring(i, i + 1);
-			if (!c.equals(" "))
+			if (!c.equals(" ") && !c.equals("\t"))
 				output += c;
 		}
 		return output;
@@ -164,7 +164,7 @@ public class RomanArabicConverter {
 		
 		// check to see if the string is a Roman numeral
 		else if (input.matches("[IVXLCDM]+")) {
-			if(input.matches(".{4}")){
+			if(input.matches("/(.)\1{4,}/")){
 				throw new MalformedNumberException("Contains illegal repetition");
 			}
 			return 2;
