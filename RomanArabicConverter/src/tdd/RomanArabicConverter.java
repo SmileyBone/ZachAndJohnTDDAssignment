@@ -231,7 +231,7 @@ public class RomanArabicConverter {
 		return output;
 	}
 
-	private String removeWhitespace(String input) throws MalformedNumberException {
+	private String removeWhitespace(String input) {
 		
 		String output = new String();
 
@@ -253,7 +253,7 @@ public class RomanArabicConverter {
 		
 		// check to see if the string is a Roman numeral
 		else if (input.matches("[IVXLCDM]+")) {
-			if(input.matches("/(.)\1{4,}/")){
+			if(input.matches("(\\w)\\1\\1\\1+")){
 				throw new MalformedNumberException("Contains illegal repetition");
 			}
 			return 2;
