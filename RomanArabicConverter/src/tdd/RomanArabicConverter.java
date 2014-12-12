@@ -135,8 +135,97 @@ public class RomanArabicConverter {
 				throw new ValueOutOfBoundsException("Input must be less than 3999");
 			}
 			
-		}
-		else{
+			int div = num/5;
+			
+			int Mnum = div / 200;
+			div -= 200*Mnum;
+			
+			int Cnum = div / 100;
+			div -= 100*Cnum;
+			
+			int Xnum = div / 2;
+			div -= 2*Xnum;
+			
+			//div is now the number of I's
+			//roman sequence construction
+			String romSeq = new String();
+			int i;
+			
+			for(i = 0; i <= Mnum; i++){
+				romSeq += "M";
+			}
+			
+			//check for any weird stuff with C
+			if(Cnum >= 5){
+				//romSeq += "D";
+				Cnum -= 5;
+				
+				if(Cnum == 4){ //meaning 
+					romSeq += "CM";
+				}else{
+					romSeq += "D";
+					for(i=0; i <= Cnum; i++){
+						romSeq += "C";
+					}
+				}
+			}else{
+				if(Cnum == 4){ //meaning 
+					romSeq += "CD";
+				}else{
+					for(i=0; i <= Cnum; i++){
+						romSeq += "C";
+					}
+				}
+			}
+			
+			//now check for weird stuff with X	
+			if(Cnum >= 5){
+				Cnum -= 5;
+				
+				if(Cnum == 4){ //meaning 
+					romSeq += "XC";
+				}else{
+					romSeq += "L";
+					for(i=0; i <= Cnum; i++){
+						romSeq += "X";
+					}
+				}
+			}else{
+				if(Cnum == 4){ //meaning 
+					romSeq += "XL";
+				}else{
+					for(i=0; i <= Cnum; i++){
+						romSeq += "X";
+					}
+				}
+			}
+			
+			//now to check for weird stuff with I
+			if(Cnum >= 5){
+				//romSeq += "D";
+				Cnum -= 5;
+				
+				if(Cnum == 4){ //meaning 
+					romSeq += "IX";
+				}else{
+					romSeq += "V";
+					for(i=0; i <= Cnum; i++){
+						romSeq += "I";
+					}
+				}
+			}else{
+				if(Cnum == 4){ //meaning 
+					romSeq += "IV";
+				}else{
+					for(i=0; i <= Cnum; i++){
+						romSeq += "I";
+					}
+				}
+			}
+			
+			output = romSeq;
+			
+		}else{
 			output = value;
 		}
 		return output;
