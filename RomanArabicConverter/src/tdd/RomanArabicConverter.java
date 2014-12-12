@@ -113,6 +113,7 @@ public class RomanArabicConverter {
 		return sum;
 	}
 
+
 	/**
 	 * @return the string that represents the value of the number as a Roman
 	 *         numeral.
@@ -125,6 +126,8 @@ public class RomanArabicConverter {
 	public String toRoman() throws ValueOutOfBoundsException {
 		String output = new String();
 		int num = 0;
+		int div, i, rem;
+		String romSeq = new String();
 		
 		if(isArabic){
 			num = Integer.parseInt(value);
@@ -134,95 +137,126 @@ public class RomanArabicConverter {
 			else if(num > 3999){
 				throw new ValueOutOfBoundsException("Input must be less than 3999");
 			}
-			
-			int div = num/5;
-			
-			int Mnum = div / 200;
-			div -= 200*Mnum;
-			
-			int Cnum = div / 100;
-			div -= 100*Cnum;
-			
-			int Xnum = div / 2;
-			div -= 2*Xnum;
-			
-			//div is now the number of I's
-			//roman sequence construction
-			String romSeq = new String();
-			int i;
-			
-			for(i = 0; i <= Mnum; i++){
-				romSeq += "M";
-			}
-			
-			//check for any weird stuff with C
-			if(Cnum >= 5){
-				//romSeq += "D";
-				Cnum -= 5;
+			if(num > 5){
+				div = num / 5;
+				rem = num % 5;
 				
-				if(Cnum == 4){ //meaning 
-					romSeq += "CM";
+				int Mnum = div / 200;
+				div -= 200*Mnum;
+				
+				int Cnum = div / 20;
+				div -= 20*Cnum;
+				
+				int Xnum = div / 2;
+				div -= 2*Xnum;
+				
+				//div is now the number of I's
+				//roman sequence construction
+				
+				for(i = 0; i < Mnum; i++){
+					romSeq += "M";
+				}
+				
+				//check for any weird stuff with C
+				if(Cnum > 5){
+					Cnum -= 5;
+					
+					if(Cnum == 4){ //meaning 
+						romSeq += "CM";
+					}else{
+						romSeq += "D";
+						for(i=0; i < Cnum; i++){
+							romSeq += "C";
+						}
+					}
 				}else{
-					romSeq += "D";
-					for(i=0; i <= Cnum; i++){
-						romSeq += "C";
+					if(Cnum == 5){
+						romSeq += "D";
+					}else if(Cnum == 4){ //meaning 
+						romSeq += "CD";
+					}else{
+						for(i=0; i < Cnum; i++){
+							romSeq += "C";
+						}
+					}
+				}
+				
+				//now check for weird stuff with X	
+				if(Xnum > 5){
+					Xnum -= 5;
+					
+					if(Xnum == 4){ //meaning 
+						romSeq += "XC";
+					}else{
+						romSeq += "L";
+						for(i=0; i < Xnum; i++){
+							romSeq += "X";
+						}
+					}
+				}else{
+					if(Xnum == 5){
+						romSeq += "L";
+					}else if(Xnum == 4){ //meaning 
+						romSeq += "XL";
+					}else{
+						for(i=0; i < Xnum; i++){
+							romSeq += "X";
+						}
+					}
+				}
+				
+				//now to check for weird stuff with I
+				if(rem > 5){
+					//romSeq += "D";
+					rem -= 5;
+					
+					if(rem == 4){ //meaning 
+						romSeq += "IX";
+					}else{
+						romSeq += "V";
+						for(i=0; i < rem; i++){
+							romSeq += "I";
+						}
+					}
+				}else{
+					if(rem == 5){
+						//do nothing
+					}else if(rem == 4){ //meaning 
+						romSeq += "IV";
+					}else{
+						for(i=0; i < rem; i++){
+							romSeq += "I";
+						}
 					}
 				}
 			}else{
-				if(Cnum == 4){ //meaning 
-					romSeq += "CD";
+				//now to check for weird stuff with I
+				if(num > 5){
+					num -= 5;
+					
+					if(num == 4){ //meaning 
+						romSeq += "IX";
+					}else{
+						romSeq += "V";
+						for(i=0; i < num; i++){
+							romSeq += "I";
+						}
+					}
 				}else{
-					for(i=0; i <= Cnum; i++){
-						romSeq += "C";
+					if(num == 5){
+						romSeq += "V";
+					}else if(num == 4){ //meaning 
+						romSeq += "IV";
+					}else{
+						for(i=0; i < num; i++){
+							romSeq += "I";
+						}
 					}
 				}
 			}
-			
-			//now check for weird stuff with X	
-			if(Cnum >= 5){
-				Cnum -= 5;
-				
-				if(Cnum == 4){ //meaning 
-					romSeq += "XC";
-				}else{
-					romSeq += "L";
-					for(i=0; i <= Cnum; i++){
-						romSeq += "X";
-					}
-				}
-			}else{
-				if(Cnum == 4){ //meaning 
-					romSeq += "XL";
-				}else{
-					for(i=0; i <= Cnum; i++){
-						romSeq += "X";
-					}
-				}
-			}
-			
-			//now to check for weird stuff with I
-			if(Cnum >= 5){
-				//romSeq += "D";
-				Cnum -= 5;
-				
-				if(Cnum == 4){ //meaning 
-					romSeq += "IX";
-				}else{
-					romSeq += "V";
-					for(i=0; i <= Cnum; i++){
-						romSeq += "I";
-					}
-				}
-			}else{
-				if(Cnum == 4){ //meaning 
-					romSeq += "IV";
-				}else{
-					for(i=0; i <= Cnum; i++){
-						romSeq += "I";
-					}
-				}
-			}
-			
+			System.out.println("");
+			System.out.println(value);
+			System.out.println(romSeq);
 			output = romSeq;
 			
 		}else{
@@ -256,6 +290,7 @@ public class RomanArabicConverter {
 			if(input.matches("(\\w)\\1\\1\\1+")){
 				throw new MalformedNumberException("Contains illegal repetition");
 			}
+			
 			return 2;
 		} else {
 			throw new MalformedNumberException("Contains illegal characters");

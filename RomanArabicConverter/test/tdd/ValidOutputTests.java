@@ -85,4 +85,27 @@ public class ValidOutputTests {
 		assertEquals(9,   new RomanArabicConverter(" IX").toArabic());
 		assertEquals("IX", new RomanArabicConverter(" IX ").toRoman());
 	}
+	
+	@Test //this was made because brute was failing on the number 6.
+	public void input_Test6Input() throws Exception
+	{
+		assertEquals(6,   new RomanArabicConverter("6").toArabic());
+		assertEquals("VI", new RomanArabicConverter(" 6 ").toRoman());
+		assertEquals(6,   new RomanArabicConverter("VI").toArabic());
+		assertEquals("VI", new RomanArabicConverter(" VI ").toRoman());
+	}
+	
+	@Test
+	public void input_BruteInput() throws Exception
+	{
+		for(int i=1;i<4000;i++){
+			RomanArabicConverter fixture = new RomanArabicConverter(Integer.toString(i));
+			String outputString = fixture.toRoman();
+			int outputNum = fixture.toArabic();
+			
+			assertEquals(i, outputNum);
+			assertEquals(i, new RomanArabicConverter(outputString).toArabic());
+		}
+	}
+	
 }
